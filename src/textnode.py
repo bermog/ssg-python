@@ -16,10 +16,10 @@ class TextNode:
         self.text_type = text_type
         self.url = url
 
-    def __eg__(self, text_node):
+    def __eq__(self, text_node):
         return (
             self.text == text_node.text
-            and self.text_type == text_node.tex_type
+            and self.text_type == text_node.text_type
             and self.url == text_node.url
         )
 
