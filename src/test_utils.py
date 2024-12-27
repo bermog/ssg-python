@@ -82,3 +82,15 @@ class TestUtils(unittest.TestCase):
         ]
         actual = Utils.split_nodes_delimiter([node1, node2], "`", TextType.CODE)
         self.assertEqual(expected, actual)
+
+    def test_extract_markdown_links(self):
+        text = """
+            first url [to google](https://google.com) and another url
+            [ddg](https://duckduckgo.com/)
+        """
+        expected = [
+            ("to google", "https://google.com"),
+            ("ddg", "https://duckduckgo.com/"),
+        ]
+        actual = Utils.extract_markdown_links(text)
+        self.assertEqual(expected, actual)

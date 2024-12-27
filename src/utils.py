@@ -45,3 +45,14 @@ class Utils:
                     new_nodes.append(TextNode(text, node_type))
 
         return new_nodes
+
+    @staticmethod
+    def extract_markdown_links(text):
+        regex = r"\[.+?\]\(.+?\)"
+        links = re.findall(regex, text)
+        results = []
+        for link in links:
+            anchor_text = link.split("[")[1].split("]")[0]
+            url = link.split("(")[1].split(")")[0]
+            results.append((anchor_text, url))
+        return results
