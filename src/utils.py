@@ -56,3 +56,14 @@ class Utils:
             url = link.split("(")[1].split(")")[0]
             results.append((anchor_text, url))
         return results
+
+    @staticmethod
+    def extract_markdown_images(text):
+        regex = r"\!\[.+?\]\(.+?\)"
+        images = re.findall(regex, text)
+        results = []
+        for image in images:
+            alt_text = image.split("[")[1].split("]")[0]
+            url = image.split("(")[1].split(")")[0]
+            results.append((alt_text, url))
+        return results

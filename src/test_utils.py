@@ -94,3 +94,15 @@ class TestUtils(unittest.TestCase):
         ]
         actual = Utils.extract_markdown_links(text)
         self.assertEqual(expected, actual)
+
+    def test_extract_markdown_images(self):
+        text = """
+            here is a gif ![cat gif](https://imgur.com/NUyttbn) and another one
+            ![squirrel gif](https://imgur.com/G9LgOkg)
+        """
+        expected = [
+            ("cat gif", "https://imgur.com/NUyttbn"),
+            ("squirrel gif", "https://imgur.com/G9LgOkg"),
+        ]
+        actual = Utils.extract_markdown_links(text)
+        self.assertEqual(expected, actual)
