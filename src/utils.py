@@ -1,5 +1,7 @@
+import re
+
 from leafnode import LeafNode
-from textnode import TextType
+from textnode import TextNode, TextType
 
 
 class Utils:
@@ -22,3 +24,24 @@ class Utils:
                 )
             case _:
                 raise Exception("Invalid TextNode type")
+
+    @staticmethod
+    def split_nodes_delimiter(old_nodes, delimiter, text_type):
+        # Delimiter will be used in a regex, so we must escape all "*"
+        if "*" in delimiter:
+            delimiter = "".join(map(lambda d: f"\\{d}", delimiter))
+
+        new_nodes = []
+        for node in old_nodes:
+            # Use regex to handle different delimiters using the same character
+            # (e.g. handle italic (*) separately from bold (**))
+            regex = f"(?<!{delimiter}){delimiter}(?!{delimiter})"
+            split_text = re.split(regex, node.text)
+            for text in split_text:
+                if len(text) > 0:
+                    node_type = (
+                        node.text_type if split_text.index(text) % 2 == 0 else text_type
+                    )
+                    new_nodes.append(TextNode(text, node_type))
+
+        return new_nodes
