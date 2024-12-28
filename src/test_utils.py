@@ -160,3 +160,22 @@ class TestUtils(unittest.TestCase):
         ]
         actual = Utils.split_nodes_image([node1, node2, node3])
         self.assertEqual(expected, actual)
+
+    def test_text_to_textnodes(self):
+        text = "This is **bold** text with *some italic* and a `code block`, with "
+        text += "![a cat image](https://imgur.com/NUyttbn) and a "
+        text += "[link to google](https://google.com)"
+        expected = [
+            TextNode("This is ", TextType.NORMAL),
+            TextNode("bold", TextType.BOLD),
+            TextNode(" text with ", TextType.NORMAL),
+            TextNode("some italic", TextType.ITALIC),
+            TextNode(" and a ", TextType.NORMAL),
+            TextNode("code block", TextType.CODE),
+            TextNode(", with ", TextType.NORMAL),
+            TextNode("a cat image", TextType.IMAGE, "https://imgur.com/NUyttbn"),
+            TextNode(" and a ", TextType.NORMAL),
+            TextNode("link to google", TextType.LINK, "https://google.com"),
+        ]
+        actual = Utils.text_to_textnodes(text)
+        self.assertEqual(expected, actual)

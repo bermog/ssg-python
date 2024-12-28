@@ -96,3 +96,13 @@ class Utils:
                 if image is not None:
                     new_nodes.append(TextNode(image[0], TextType.IMAGE, image[1]))
         return new_nodes
+
+    @staticmethod
+    def text_to_textnodes(text):
+        text_node = TextNode(text, TextType.NORMAL)
+        output = Utils.split_nodes_delimiter([text_node], "*", TextType.ITALIC)
+        output = Utils.split_nodes_delimiter(output, "**", TextType.BOLD)
+        output = Utils.split_nodes_delimiter(output, "`", TextType.CODE)
+        output = Utils.split_nodes_image(output)
+        output = Utils.split_nodes_link(output)
+        return output
