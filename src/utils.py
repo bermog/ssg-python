@@ -82,3 +82,17 @@ class Utils:
                 if link is not None:
                     new_nodes.append(TextNode(link[0], TextType.LINK, link[1]))
         return new_nodes
+
+    @staticmethod
+    def split_nodes_image(old_nodes):
+        regex = r"\!\[.+?\]\(.+?\)"
+        new_nodes = []
+        for node in old_nodes:
+            split_text = re.split(regex, node.text)
+            images = Utils.extract_markdown_images(node.text)
+            for text, image in zip_longest(split_text, images):
+                if text is not None and len(text) > 0:
+                    new_nodes.append(TextNode(text, node.text_type))
+                if image is not None:
+                    new_nodes.append(TextNode(image[0], TextType.IMAGE, image[1]))
+        return new_nodes

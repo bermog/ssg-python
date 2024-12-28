@@ -133,3 +133,30 @@ class TestUtils(unittest.TestCase):
         ]
         actual = Utils.split_nodes_link([node1, node2, node3])
         self.assertEqual(expected, actual)
+
+    def test_split_nodes_image(self):
+        node1 = TextNode(
+            "![Cat](https://imgur.com/NUyttbn) and some text",
+            TextType.NORMAL,
+        )
+        node2 = TextNode(
+            "This is ![a cat](https://imgur.com/NUyttbn) and some text",
+            TextType.NORMAL,
+        )
+        node3 = TextNode(
+            "This is ![a cat](https://imgur.com/NUyttbn) and ![a squirrel](https://imgur.com/G9LgOkg)",
+            TextType.NORMAL,
+        )
+        expected = [
+            TextNode("Cat", TextType.IMAGE, "https://imgur.com/NUyttbn"),
+            TextNode(" and some text", TextType.NORMAL),
+            TextNode("This is ", TextType.NORMAL),
+            TextNode("a cat", TextType.IMAGE, "https://imgur.com/NUyttbn"),
+            TextNode(" and some text", TextType.NORMAL),
+            TextNode("This is ", TextType.NORMAL),
+            TextNode("a cat", TextType.IMAGE, "https://imgur.com/NUyttbn"),
+            TextNode(" and ", TextType.NORMAL),
+            TextNode("a squirrel", TextType.IMAGE, "https://imgur.com/G9LgOkg"),
+        ]
+        actual = Utils.split_nodes_image([node1, node2, node3])
+        self.assertEqual(expected, actual)
