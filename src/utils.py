@@ -1,4 +1,5 @@
 import re
+from itertools import zip_longest
 
 from leafnode import LeafNode
 from textnode import TextNode, TextType
@@ -67,3 +68,17 @@ class Utils:
             url = image.split("(")[1].split(")")[0]
             results.append((alt_text, url))
         return results
+
+    @staticmethod
+    def split_nodes_link(old_nodes):
+        regex = r"\[.+?\]\(.+?\)"
+        new_nodes = []
+        for node in old_nodes:
+            split_text = re.split(regex, node.text)
+            links = Utils.extract_markdown_links(node.text)
+            for text, link in zip_longest(split_text, links):
+                if text is not None and len(text) > 0:
+                    new_nodes.append(TextNode(text, node.text_type))
+                if link is not None:
+                    new_nodes.append(TextNode(link[0], TextType.LINK, link[1]))
+        return new_nodes

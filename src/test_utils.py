@@ -106,3 +106,30 @@ class TestUtils(unittest.TestCase):
         ]
         actual = Utils.extract_markdown_links(text)
         self.assertEqual(expected, actual)
+
+    def test_split_nodes_link(self):
+        node1 = TextNode(
+            "[Google](https://google.com) and some text",
+            TextType.NORMAL,
+        )
+        node2 = TextNode(
+            "This is a link [to google](https://google.com) and some text",
+            TextType.NORMAL,
+        )
+        node3 = TextNode(
+            "This is a link [to google](https://google.com) and [to ddg](https://duckduckgo.com)",
+            TextType.NORMAL,
+        )
+        expected = [
+            TextNode("Google", TextType.LINK, "https://google.com"),
+            TextNode(" and some text", TextType.NORMAL),
+            TextNode("This is a link ", TextType.NORMAL),
+            TextNode("to google", TextType.LINK, "https://google.com"),
+            TextNode(" and some text", TextType.NORMAL),
+            TextNode("This is a link ", TextType.NORMAL),
+            TextNode("to google", TextType.LINK, "https://google.com"),
+            TextNode(" and ", TextType.NORMAL),
+            TextNode("to ddg", TextType.LINK, "https://duckduckgo.com"),
+        ]
+        actual = Utils.split_nodes_link([node1, node2, node3])
+        self.assertEqual(expected, actual)
