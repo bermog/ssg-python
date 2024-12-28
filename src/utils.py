@@ -78,7 +78,7 @@ class Utils:
             links = Utils.extract_markdown_links(node.text)
             for text, link in zip_longest(split_text, links):
                 if text is not None and len(text) > 0:
-                    new_nodes.append(TextNode(text, node.text_type))
+                    new_nodes.append(TextNode(text, node.text_type, node.url))
                 if link is not None:
                     new_nodes.append(TextNode(link[0], TextType.LINK, link[1]))
         return new_nodes
@@ -92,7 +92,7 @@ class Utils:
             images = Utils.extract_markdown_images(node.text)
             for text, image in zip_longest(split_text, images):
                 if text is not None and len(text) > 0:
-                    new_nodes.append(TextNode(text, node.text_type))
+                    new_nodes.append(TextNode(text, node.text_type, node.url))
                 if image is not None:
                     new_nodes.append(TextNode(image[0], TextType.IMAGE, image[1]))
         return new_nodes
