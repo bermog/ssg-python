@@ -179,3 +179,19 @@ class TestUtils(unittest.TestCase):
         ]
         actual = Utils.text_to_textnodes(text)
         self.assertEqual(expected, actual)
+
+    def test_markdown_to_blocks(self):
+        markdown = "  # This is a heading\n\n    "
+        markdown += "      This is a paragraph with **bold** and *italic* words.   \n\n\n"
+        markdown += "* This is the first item in a list\n"
+        markdown += "* This is another item\n"
+        markdown += "* This is the last item    \n\n"
+        expected = [
+            "# This is a heading",
+            "This is a paragraph with **bold** and *italic* words.",
+            "* This is the first item in a list\n" +
+            "* This is another item\n" +
+            "* This is the last item"
+        ]
+        actual = Utils.markdown_to_blocks(markdown)
+        self.assertEqual(expected, actual)

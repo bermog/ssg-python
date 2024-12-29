@@ -106,3 +106,10 @@ class Utils:
         output = Utils.split_nodes_image(output)
         output = Utils.split_nodes_link(output)
         return output
+
+    @staticmethod
+    def markdown_to_blocks(markdown):
+        blocks = markdown.split("\n\n")
+        blocks = list(map(lambda p: p.strip(), blocks))
+        blocks = list(filter(lambda p: len(p) > 0, blocks))
+        return blocks
