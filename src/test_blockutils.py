@@ -100,3 +100,7 @@ class TestBlockUtils(unittest.TestCase):
         self.assertEqual(expected, actual)
         actual = BlockUtils.block_to_block_type(block4)
         self.assertEqual(expected, actual)
+
+
+if __name__ == "__main__":
+    unittest.main()

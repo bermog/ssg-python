@@ -143,3 +143,7 @@ class TestInlineUtils(unittest.TestCase):
         ]
         actual = InlineUtils.split_nodes_image([node1, node2, node3])
         self.assertEqual(expected, actual)
+
+
+if __name__ == "__main__":
+    unittest.main()
