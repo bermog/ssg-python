@@ -37,6 +37,42 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is a text node", TextType.BOLD)
         self.assertNotEqual(node1, node2)
 
+    def test_normal_text_to_htmlnode(self):
+        node = TextNode("Normal text", TextType.NORMAL)
+        expected = "Normal text"
+        actual = node.to_htmlnode().to_html()
+        self.assertEqual(expected, actual)
+
+    def test_bold_text_to_htmlnode(self):
+        node = TextNode("Bold text", TextType.BOLD)
+        expected = "<b>Bold text</b>"
+        actual = node.to_htmlnode().to_html()
+        self.assertEqual(expected, actual)
+
+    def test_italic_text_to_htmlnode(self):
+        node = TextNode("Italic text", TextType.ITALIC)
+        expected = "<i>Italic text</i>"
+        actual = node.to_htmlnode().to_html()
+        self.assertEqual(expected, actual)
+
+    def test_code_text_to_htmlnode(self):
+        node = TextNode("Code text", TextType.CODE)
+        expected = "<code>Code text</code>"
+        actual = node.to_htmlnode().to_html()
+        self.assertEqual(expected, actual)
+
+    def test_link_text_to_htmlnode(self):
+        node = TextNode("Link text", TextType.LINK, "https://google.com")
+        expected = '<a href="https://google.com">Link text</a>'
+        actual = node.to_htmlnode().to_html()
+        self.assertEqual(expected, actual)
+
+    def test_image_text_to_htmlnode(self):
+        node = TextNode("Image text", TextType.IMAGE, "myImage.png")
+        expected = '<img src="myImage.png" alt="Image text"></img>'
+        actual = node.to_htmlnode().to_html()
+        self.assertEqual(expected, actual)
+
 
 if __name__ == "__main__":
     unittest.main()
