@@ -6,6 +6,11 @@ from textnode import TextNode, TextType
 
 class InlineUtils:
     @staticmethod
+    def text_to_htmlnodes(text):
+        text_nodes = InlineUtils.text_to_textnodes(text)
+        return list(map(lambda node: node.to_htmlnode(), text_nodes))
+
+    @staticmethod
     def text_to_textnodes(text):
         text_node = TextNode(text, TextType.NORMAL)
         output = InlineUtils.split_nodes_delimiter([text_node], "*", TextType.ITALIC)
