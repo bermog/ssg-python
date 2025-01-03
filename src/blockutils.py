@@ -60,14 +60,30 @@ class BlockUtils:
 
     @staticmethod
     def block_to_list(markdown, block_type):
-        # TODO: Implement this
+        regex = None
+        list_tag = None
+
         match block_type:
             case BlockType.UNORDERED_LIST:
-                pass
+                regex = r"^(\*|-) "
+                list_tag = "ul"
             case BlockType.ORDERED_LIST:
-                pass
+                regex = r"^\d+\. "
+                list_tag = "ol"
             case _:
                 raise ValueError(f"Unable to convert {block_type} to HTML list")
+
+        items = markdown.split("\n")
+        items = list(map(lambda item: re.split(regex, item)[-1], items))
+        items = list(filter(lambda item: len(item) > 0, items))
+        items = list(map(lambda item: item.strip(), items))
+        children = list(
+            map(
+                lambda item: ParentNode("li", InlineUtils.text_to_htmlnodes(item)),
+                items,
+            )
+        )
+        return ParentNode(list_tag, children)
 
     @staticmethod
     def block_to_paragraph(block):

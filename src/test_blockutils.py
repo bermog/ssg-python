@@ -119,13 +119,78 @@ class TestBlockUtils(unittest.TestCase):
         actual = BlockUtils.markdown_to_html_node(markdown).to_html()
         self.assertEqual(expected, actual)
 
-    def test_unordered_list_markdown_to_html_node(self):
-        # TODO: implement this
-        pass
+    def test_dash_unordered_list_markdown_to_html_node(self):
+        markdown = "- First *item*\n"
+        markdown += "- Second **item**\n"
+        expected = """
+            <div>
+                <ul>
+                    <li>First 
+                        <i>item</i>
+                    </li>
+                    <li>Second 
+                        <b>item</b>
+                    </li>
+                </ul>
+            </div>
+        """.replace(" ", "").replace("\n", "")
+        actual = (
+            BlockUtils.markdown_to_html_node(markdown)
+            .to_html()
+            .replace(" ", "")
+            .replace("\n", "")
+        )
+        self.assertEqual(expected, actual)
+
+    def test_star_unordered_list_markdown_to_html_node(self):
+        markdown = "* First *item*\n"
+        markdown += "* Second **item**\n"
+        expected = """
+            <div>
+                <ul>
+                    <li>First 
+                        <i>item</i>
+                    </li>
+                    <li>Second 
+                        <b>item</b>
+                    </li>
+                </ul>
+            </div>
+        """.replace(" ", "").replace("\n", "")
+        actual = (
+            BlockUtils.markdown_to_html_node(markdown)
+            .to_html()
+            .replace(" ", "")
+            .replace("\n", "")
+        )
+        self.assertEqual(expected, actual)
 
     def test_ordered_list_markdown_to_html_node(self):
-        # TODO: implement this
-        pass
+        markdown = "1. First *item*\n"
+        markdown += "2. Second **item**\n"
+        markdown += "3. Third `item`\n"
+        expected = """
+            <div>
+                <ol>
+                    <li>First 
+                        <i>item</i>
+                    </li>
+                    <li>Second 
+                        <b>item</b>
+                    </li>
+                    <li>Third 
+                        <code>item</code>
+                    </li>
+                </ol>
+            </div>
+        """.replace(" ", "").replace("\n", "")
+        actual = (
+            BlockUtils.markdown_to_html_node(markdown)
+            .to_html()
+            .replace(" ", "")
+            .replace("\n", "")
+        )
+        self.assertEqual(expected, actual)
 
     def test_paragraph_markdown_to_html_node(self):
         markdown = "This is a paragraph"
