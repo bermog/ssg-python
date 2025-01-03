@@ -101,6 +101,38 @@ class TestBlockUtils(unittest.TestCase):
         actual = BlockUtils.block_to_block_type(block4)
         self.assertEqual(expected, actual)
 
+    def test_heading_markdown_to_html_node(self):
+        markdown = "## This heading has **bold text** and more text"
+        expected = "<div><h2>This heading has <b>bold text</b> and more text</h2></div>"
+        actual = BlockUtils.markdown_to_html_node(markdown).to_html()
+        self.assertEqual(expected, actual)
+
+    def test_code_markdown_to_html_node(self):
+        markdown = "```This is a code block```"
+        expected = "<div><pre><code>This is a code block</code></pre></div>"
+        actual = BlockUtils.markdown_to_html_node(markdown).to_html()
+        self.assertEqual(expected, actual)
+
+    def test_quote_markdown_to_html_node(self):
+        markdown = ">This is a quote block"
+        expected = "<div><blockquote>This is a quote block</blockquote></div>"
+        actual = BlockUtils.markdown_to_html_node(markdown).to_html()
+        self.assertEqual(expected, actual)
+
+    def test_unordered_list_markdown_to_html_node(self):
+        # TODO: implement this
+        pass
+
+    def test_ordered_list_markdown_to_html_node(self):
+        # TODO: implement this
+        pass
+
+    def test_paragraph_markdown_to_html_node(self):
+        markdown = "This is a paragraph"
+        expected = "<div><p>This is a paragraph</p></div>"
+        actual = BlockUtils.markdown_to_html_node(markdown).to_html()
+        self.assertEqual(expected, actual)
+
 
 if __name__ == "__main__":
     unittest.main()

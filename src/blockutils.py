@@ -1,6 +1,9 @@
 import re
 from enum import Enum
 
+from inlineutils import InlineUtils
+from parentnode import ParentNode
+
 
 class BlockType(Enum):
     HEADING = "heading"
@@ -9,6 +12,7 @@ class BlockType(Enum):
     UNORDERED_LIST = "unordered_list"
     ORDERED_LIST = "ordered_list"
     PARAGRAPH = "paragraph"
+
 
 class BlockUtils:
     @staticmethod
@@ -32,3 +36,70 @@ class BlockUtils:
             return BlockType.ORDERED_LIST
         else:
             return BlockType.PARAGRAPH
+
+    @staticmethod
+    def block_to_heading(block):
+        hashtag_amount = len(block.split()[0])
+        text = block.split("# ")[1] if hashtag_amount in range(1, 7) else block
+        children = InlineUtils.text_to_htmlnodes(text)
+        return ParentNode(f"h{hashtag_amount}", children)
+
+    @staticmethod
+    def block_to_code(block):
+        # TODO: Consider implementing the HTML5 class that specifies language
+        # (e.g. "```python" should become '<code class="language-python">'
+        text = block.split("```")[1]
+        children = InlineUtils.text_to_htmlnodes(text)
+        return ParentNode("pre", [ParentNode("code", children)])
+
+    @staticmethod
+    def block_to_blockquote(block):
+        text = block.split(">")[1]
+        children = InlineUtils.text_to_htmlnodes(text)
+        return ParentNode("blockquote", children)
+
+    @staticmethod
+    def block_to_list(markdown, block_type):
+        # TODO: Implement this
+        match block_type:
+            case BlockType.UNORDERED_LIST:
+                pass
+            case BlockType.ORDERED_LIST:
+                pass
+            case _:
+                raise ValueError(f"Unable to convert {block_type} to HTML list")
+
+    @staticmethod
+    def block_to_paragraph(block):
+        children = InlineUtils.text_to_htmlnodes(block)
+        return ParentNode("p", children)
+
+    @staticmethod
+    def block_to_htmlnode(block, block_type):
+        match block_type:
+            case BlockType.HEADING:
+                return BlockUtils.block_to_heading(block)
+            case BlockType.CODE:
+                return BlockUtils.block_to_code(block)
+            case BlockType.QUOTE:
+                return BlockUtils.block_to_blockquote(block)
+            case BlockType.UNORDERED_LIST:
+                return BlockUtils.block_to_list(block, block_type)
+            case BlockType.ORDERED_LIST:
+                return BlockUtils.block_to_list(block, block_type)
+            case BlockType.PARAGRAPH:
+                return BlockUtils.block_to_paragraph(block)
+            case _:
+                raise ValueError(f"Invalid markdown block type: {block_type}")
+
+    @staticmethod
+    def markdown_to_html_node(markdown):
+        blocks = BlockUtils.markdown_to_blocks(markdown)
+        children = []
+
+        for block in blocks:
+            block_type = BlockUtils.block_to_block_type(block)
+            node = BlockUtils.block_to_htmlnode(block, block_type)
+            children.append(node)
+
+        return ParentNode("div", children)
