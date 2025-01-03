@@ -198,6 +198,61 @@ class TestBlockUtils(unittest.TestCase):
         actual = BlockUtils.markdown_to_html_node(markdown).to_html()
         self.assertEqual(expected, actual)
 
+    def test_full_markdown_to_html_node(self):
+        markdown = "### This is a header\n\n"
+        markdown += "This is a paragraph with **bold text**\n"
+        markdown += "and a second line here\n\n"
+        markdown += "```\n"
+        markdown += "This is a code block\n"
+        markdown += "that continues here\n"
+        markdown += "with a third line\n"
+        markdown += "```\n\n"
+        markdown += ">This is a quote with *italic text*\n\n"
+        markdown += "- First unordered list item\n"
+        markdown += "- Second unordered list item\n\n"
+        markdown += "* Another unordered list\n"
+        markdown += "* One more item\n\n"
+        markdown += "1. First item of an ordered list\n"
+        markdown += "2. Second item\n"
+        expected = """
+            <div>
+                <h3>This is a header</h3>
+                <p>This is a paragraph with 
+                    <b>bold text</b>
+                    and a second line here
+                </p>
+                <pre>
+                    <code>
+                        This is a code block
+                        that continues here
+                        with a third line
+                    </code>
+                </pre>
+                <blockquote>This is a quote with 
+                    <i>italic text</i>
+                </blockquote>
+                <ul>
+                    <li>First unordered list item</li>
+                    <li>Second unordered list item</li>
+                </ul>
+                <ul>
+                    <li>Another unordered list</li>
+                    <li>One more item</li>
+                </ul>
+                <ol>
+                    <li>First item of an ordered list</li>
+                    <li>Second item</li>
+                </ol>
+            </div>
+        """.replace(" ", "").replace("\n", "")
+        actual = (
+            BlockUtils.markdown_to_html_node(markdown)
+            .to_html()
+            .replace(" ", "")
+            .replace("\n", "")
+        )
+        self.assertEqual(expected, actual)
+
 
 if __name__ == "__main__":
     unittest.main()
