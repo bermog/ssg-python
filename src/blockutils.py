@@ -48,13 +48,13 @@ class BlockUtils:
     def block_to_code(block):
         # TODO: Consider implementing the HTML5 class that specifies language
         # (e.g. "```python" should become '<code class="language-python">'
-        text = block.split("```")[1]
+        text = block.split("```")[1].strip()
         children = InlineUtils.text_to_htmlnodes(text)
         return ParentNode("pre", [ParentNode("code", children)])
 
     @staticmethod
     def block_to_blockquote(block):
-        text = block.split(">")[1]
+        text = block.split(">")[1].strip()
         children = InlineUtils.text_to_htmlnodes(text)
         return ParentNode("blockquote", children)
 
