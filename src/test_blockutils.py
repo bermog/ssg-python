@@ -253,6 +253,12 @@ class TestBlockUtils(unittest.TestCase):
         )
         self.assertEqual(expected, actual)
 
+    def test_extract_title(self):
+        text = "Some noise\n# This is a title\n\n# This is another title\n"
+        expected = "This is a title"
+        actual = BlockUtils.extract_title(text)
+        self.assertEqual(expected, actual)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -119,3 +119,11 @@ class BlockUtils:
             children.append(node)
 
         return ParentNode("div", children)
+
+    @staticmethod
+    def extract_title(markdown):
+        regex = r"^#{1} .+"
+        match = re.findall(regex, markdown, re.MULTILINE)
+        if len(match) > 0:
+            return match[0].split("# ")[-1]
+        raise Exception("Title not found in markdown (e.g. '# My title')")
