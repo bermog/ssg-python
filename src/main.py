@@ -10,7 +10,7 @@ path_public = "./public"
 def main():
     print("Generating public content")
     copy_directory_contents(path_static, path_public)
-    SSG.generate_page("./content/index.md", "./template.html", "./public/index.html")
+    SSG.generate_pages_recursive("./content", "./template.html", "./public")
     print("Done")
 
 
