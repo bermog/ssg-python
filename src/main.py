@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 
 from ssg import SSG
-from copystatic import copy_directory_contents
 
 path_static = "./static"
+path_content = "./content"
+path_template = "./template.html"
 path_public = "./public"
 
 
 def main():
+    generator = SSG(path_static, path_content, path_template, path_public)
+
     print("Generating public content")
-    copy_directory_contents(path_static, path_public)
-    SSG.generate_pages_recursive("./content", "./template.html", "./public")
+    generator.generate_website()
     print("Done")
 
 
